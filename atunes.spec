@@ -25,6 +25,10 @@ programming language.
 Currently plays mp3, ogg, wma, wav and mp4 files, allowing users to
 easily edit tags, organize music and rip Audio CDs.
 
+This software is released under GPL. It is however included in the
+non-free section because we have not yet been able to build some of its
+dependencies (swingx.jar) using only free software.
+
 %prep
 %setup -q -n aTunes
 # TODO:
