@@ -14,7 +14,7 @@ Requires:	mplayer vorbis-tools
 Requires:	jakarta-commons-io jakarta-commons-logging entagged-audioformats-java
 Requires:	jcommon jdic jfreechart jhlabs-filters log4j jakarta-oro
 BuildArch:	noarch
-BuildRequires:	java-devel >= 1.7.0
+BuildRequires:	java-devel >= 1.7.0 ant
 BuildRequires:	unzip
 BuildRequires:	jakarta-commons-io jakarta-commons-logging entagged-audioformats-java
 BuildRequires:	jcommon jdic jfreechart jhlabs-filters log4j jakarta-oro
