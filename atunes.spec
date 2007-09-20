@@ -116,7 +116,7 @@ Terminal=false
 Type=Application
 StartupNotify=true
 MimeType=audio/x-mp3;audio/x-ogg;application/x-ogg;audio/x-mpegurl;audio/x-wav;audio/x-scpls;audio/mpegurl;audio/mp3;audio/mpeg;audio/x-mpeg;application/x-flac;audio/x-flac;
-Categories=Audio;Player;X-MandrivaLinux-Multimedia-Sound;AudioVideo;Java;
+Categories=Audio;Player;X-MandrivaLinux-Multimedia-Sound;AudioVideo;Java;X-MandrivaLinux-CrossDesktop;
 EOF
 
 %post
