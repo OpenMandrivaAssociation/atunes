@@ -9,6 +9,7 @@ Source0:	aTunes_%{version}.tgz
 Source1:	atunes-mini.png
 Source2:	atunes.png
 Source3:	atunes-large.png
+Patch0:		atunes-default_theme.patch
 Requires:	java >= 1.6.0
 Requires:	mplayer vorbis-tools
 Requires:	jakarta-commons-io jakarta-commons-logging entagged-audioformats-java
@@ -31,6 +32,7 @@ dependencies (swingx.jar) using only free software.
 
 %prep
 %setup -q -n aTunes
+%patch0 -p1
 # TODO:
 # swingx.jar antBuildNumber.jar and substance.jar need to be built separatly later
 %{__find} . -name '*.jar' ! -name swingx.jar ! -name antBuildNumber.jar \
