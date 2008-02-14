@@ -5,6 +5,7 @@ Release:	%mkrel 2
 URL:		http://www.atunes.org/
 License:	GPLv2+
 Group:		Sound
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Source0:	aTunes_%{version}.tgz
 Source1:	atunes-mini.png
 Source2:	atunes.png
