@@ -1,5 +1,5 @@
 Name:		atunes
-Summary:	aTunes audio player and manager
+Summary:	Audio player and manager
 Version:	1.7.2
 Release:	%mkrel 2
 URL:		http://www.atunes.org/
