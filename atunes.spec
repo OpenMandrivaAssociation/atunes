@@ -36,9 +36,9 @@ dependencies (swingx.jar) using only free software.
 %patch0 -p1
 # TODO:
 # swingx.jar antBuildNumber.jar and substance.jar need to be built separatly later
-%{__find} . -name '*.jar' ! -name swingx.jar ! -name antBuildNumber.jar \
+find . -name '*.jar' ! -name swingx.jar ! -name antBuildNumber.jar \
 	    ! -name substance.jar -exec %{__rm} -f {} \;
-%{__find} . -name '*.class' -exec %{__rm} -f {} \;
+find . -name '*.class' -exec %{__rm} -f {} \;
 
 %{__mkdir} build
 
