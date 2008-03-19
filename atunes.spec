@@ -1,25 +1,27 @@
 Name:		atunes
 Summary:	Audio player and manager
-Version:	1.7.2
-Release:	%mkrel 3
+Version:	1.8.2
+Release:	%mkrel 1
 URL:		http://www.atunes.org/
 License:	GPLv2+
 Group:		Sound
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Source0:	aTunes_%{version}.tgz
+Source0:	aTunes_%{version}.tar.gz
 Source1:	atunes-mini.png
 Source2:	atunes.png
 Source3:	atunes-large.png
 Patch0:		atunes-default_theme.patch
+Patch1:		atunes-disable_jintellitype.patch
 Requires:	java >= 1.6.0
 Requires:	mplayer vorbis-tools
 Requires:	jakarta-commons-io jakarta-commons-logging entagged-audioformats-java
 Requires:	jcommon jdic jfreechart jhlabs-filters log4j jakarta-oro
 BuildArch:	noarch
-BuildRequires:	java-devel >= 1.7.0 ant
+BuildRequires:	java-devel java-rpmbuild jpackage-utils ant
 BuildRequires:	unzip
 BuildRequires:	jakarta-commons-io jakarta-commons-logging entagged-audioformats-java
-BuildRequires:	jcommon jdic jfreechart jhlabs-filters log4j jakarta-oro
+BuildRequires:	jcommon jdic jfreechart jhlabs-filters log4j jakarta-oro jaudiotagger
+BuildRequires:	jna jna-examples substance swingx htmlparser xmlpull-api htmlparser xstream
 %description
 aTunes is a full-featured audio player and manager, developed in Java
 programming language.
@@ -27,17 +29,12 @@ programming language.
 Currently plays mp3, ogg, wma, wav and mp4 files, allowing users to
 easily edit tags, organize music and rip Audio CDs.
 
-This software is released under GPL. It is however included in the
-non-free section because we have not yet been able to build some of its
-dependencies (swingx.jar) using only free software.
-
 %prep
 %setup -q -n aTunes
-%patch0 -p1
-# TODO:
-# swingx.jar antBuildNumber.jar and substance.jar need to be built separatly later
-find . -name '*.jar' ! -name swingx.jar ! -name antBuildNumber.jar \
-	    ! -name substance.jar -exec %{__rm} -f {} \;
+%patch1 -p1
+#%patch0 -p1
+find . -name '*.jar' ! -name antCommenter.jar ! -name antBuildNumber.jar \
+	    -exec %{__rm} -f {} \;
 find . -name '*.class' -exec %{__rm} -f {} \;
 
 %{__mkdir} build
@@ -62,32 +59,16 @@ find . -name '*.class' -exec %{__rm} -f {} \;
 </project>
 EOF
 
-cd translations
-%{__mv} fran*.png francais.png
-%{__mv} fran*.properties francais.properties
-%{__mv} espa*ol.png espanol.png
-%{__mv} espa*ol.properties espanol.properties
-%{__mv} portu*brasil.png 'portuges brasil.png'
-%{__mv} portu*brasil.properties 'portuges brasil.properties'
-%{__mv} portu*s.png portuges.png
-%{__mv} portu*s.properties portuges.properties
-%{__mv} slovensk*.properties slovenska.properties
-# this file cause the program to crash :
-%{__rm} slovensk*.png
-
 %build
-ant build-jar
+CLASSPATH=`build-classpath swingx substance jna jna-examples jakarta-oro \
+	   jcommon jhlabs-filters log4j jaudiotagger xmlpull-api \
+	   htmlparser xstream` \
+	 ant build-jar
 
 %install
 %{__rm} -Rf %{buildroot}
 %{__mkdir_p} %{buildroot}%{_javadir}
 %{__cp} -p aTunes.jar %{buildroot}%{_javadir}
-cd lib
-for file in swingx.jar antBuildNumber.jar substance.jar
-do
-	%{__cp} -p $file %{buildroot}%{_javadir}/%{name}-$file
-done
-cd ..
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{name}
 %{__cp} -a translations %{buildroot}%{_datadir}/%{name}
@@ -133,7 +114,6 @@ EOF
 %attr(0755,root,root) %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_javadir}/aTunes.jar
-%{_javadir}/%{name}-*.jar
 %{_miconsdir}/%{name}.png
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
