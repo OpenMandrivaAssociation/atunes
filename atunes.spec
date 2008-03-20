@@ -1,7 +1,7 @@
 Name:		atunes
 Summary:	Audio player and manager
 Version:	1.8.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 URL:		http://www.atunes.org/
 License:	GPLv2+
 Group:		Sound
@@ -19,6 +19,7 @@ Requires:	mplayer vorbis-tools
 Requires:	jakarta-commons-io jakarta-commons-logging
 Requires:	jcommon jfreechart jhlabs-filters log4j jakarta-oro
 Requires:	jna jna-examples substance swingx htmlparser xmlpull-api xstream
+Suggests:	vorbis-tools flac cdrkit-icedax
 BuildArch:	noarch
 BuildRequires:	java-devel java-rpmbuild jpackage-utils ant
 BuildRequires:	unzip
