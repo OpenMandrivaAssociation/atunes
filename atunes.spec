@@ -10,6 +10,8 @@ Source0:	aTunes_%{version}.tar.gz
 Source1:	atunes-mini.png
 Source2:	atunes.png
 Source3:	atunes-large.png
+Source4:	antBuildNumber.jar
+Source5:	antCommenter.jar
 Patch0:		atunes-default_theme.patch
 Patch1:		atunes-disable_jintellitype.patch
 Requires:	java >= 1.6.0
@@ -34,8 +36,7 @@ easily edit tags, organize music and rip Audio CDs.
 %setup -q -n aTunes
 %patch1 -p1
 #%patch0 -p1
-find . -name '*.jar' ! -name antCommenter.jar ! -name antBuildNumber.jar \
-	    -exec %{__rm} -f {} \;
+find . -name '*.jar' -exec %{__rm} -f {} \;
 find . -name '*.class' -exec %{__rm} -f {} \;
 
 %{__mkdir} build
@@ -60,11 +61,51 @@ find . -name '*.class' -exec %{__rm} -f {} \;
 </project>
 EOF
 
+%{__mkdir_p} antBuildNumber/src antBuildNumber/build
+%{__unzip} -d antBuildNumber/src %{SOURCE4}
+find antBuildNumber/src -name '*.class' -exec %{__rm} -f {} \;
+
+%{__cat} > antBuildNumber/build.xml <<EOF
+<project name="antBuildNumber" basedir="." default="build-jar">
+        <target name="build-jar">
+                <javac srcdir="src" destdir="build" />
+                <jar basedir="build" destfile="antBuildNumber.jar">
+                        <fileset dir="build" includes="*/*.*"/>
+                </jar>
+        </target>
+</project>
+EOF
+
+%{__mkdir_p} antCommenter/src antCommenter/build
+%{__unzip} -d antCommenter/src %{SOURCE5}
+find antCommenter/src -name '*.class' -exec %{__rm} -f {} \;
+
+%{__cat} > antCommenter/build.xml <<EOF
+<project name="aTunes" basedir="." default="build-jar">
+        <target name="build-jar">
+                <javac srcdir="src" destdir="build">
+			<classpath>
+				<fileset dir="%{_javadir}" includes="commons-io.jar"/>
+			</classpath>
+		</javac>
+                <jar basedir="build" destfile="antCommenter.jar">
+                        <fileset dir="build" includes="*/*.*"/>
+                </jar>
+        </target>
+</project>
+EOF
+
 %build
+(cd antBuildNumber; %ant build-jar)
+%{__mv} antBuildNumber/antBuildNumber.jar lib
+
+(cd antCommenter; %ant build-jar)
+%{__mv} antCommenter/antCommenter.jar lib
+
 CLASSPATH=`build-classpath swingx substance jna jna-examples jakarta-oro \
 	   jcommon jhlabs-filters log4j jaudiotagger xmlpull-api \
 	   htmlparser xstream` \
-	 ant build-jar
+	 %ant build-jar
 
 %install
 %{__rm} -Rf %{buildroot}
