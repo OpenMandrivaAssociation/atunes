@@ -14,14 +14,15 @@ Patch0:		atunes-default_theme.patch
 Patch1:		atunes-disable_jintellitype.patch
 Requires:	java >= 1.6.0
 Requires:	mplayer vorbis-tools
-Requires:	jakarta-commons-io jakarta-commons-logging entagged-audioformats-java
-Requires:	jcommon jdic jfreechart jhlabs-filters log4j jakarta-oro
+Requires:	jakarta-commons-io jakarta-commons-logging
+Requires:	jcommon jfreechart jhlabs-filters log4j jakarta-oro
+Requires:	jna jna-examples substance swingx htmlparser xmlpull-api xstream
 BuildArch:	noarch
 BuildRequires:	java-devel java-rpmbuild jpackage-utils ant
 BuildRequires:	unzip
-BuildRequires:	jakarta-commons-io jakarta-commons-logging entagged-audioformats-java
-BuildRequires:	jcommon jdic jfreechart jhlabs-filters log4j jakarta-oro jaudiotagger
-BuildRequires:	jna jna-examples substance swingx htmlparser xmlpull-api htmlparser xstream
+BuildRequires:	jakarta-commons-io jakarta-commons-logging
+BuildRequires:	jcommon jfreechart jhlabs-filters log4j jakarta-oro jaudiotagger
+BuildRequires:	jna jna-examples substance swingx htmlparser xmlpull-api xstream
 %description
 aTunes is a full-featured audio player and manager, developed in Java
 programming language.
@@ -69,6 +70,7 @@ CLASSPATH=`build-classpath swingx substance jna jna-examples jakarta-oro \
 %{__rm} -Rf %{buildroot}
 %{__mkdir_p} %{buildroot}%{_javadir}
 %{__cp} -p aTunes.jar %{buildroot}%{_javadir}
+%{__cp} -p lib/antBuildNumber.jar %{buildroot}%{_javadir}/%{name}-antBuildNumber.jar
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{name}
 %{__cp} -a translations %{buildroot}%{_datadir}/%{name}
@@ -79,7 +81,7 @@ CLASSPATH=`build-classpath swingx substance jna jna-examples jakarta-oro \
 cat > %{buildroot}%{_bindir}/%{name} <<EOF
 #!/bin/sh
 cd %{_datadir}/%{name}
-java -cp %{_javadir}/aTunes.jar:%{_javadir}/commons-io.jar:%{_javadir}/jcommon.jar:%{_javadir}/jfreechart.jar:%{_javadir}/entagged-audioformats.jar:%{_javadir}/log4j.jar:%{_javadir}/commons-logging.jar:%{_javadir}/jdic.jar:%{_javadir}/%{name}-antBuildNumber.jar:%{_javadir}/%{name}-substance.jar:%{_javadir}/oro.jar:%{_javadir}/%{name}-swingx.jar:%{_javadir}/Filters.jar net.sourceforge.atunes.Main "\$1"
+java -Xms18m -Xmx96m -cp %{_javadir}/aTunes.jar:%{_javadir}/commons-io.jar:%{_javadir}/jcommon.jar:%{_javadir}/jfreechart.jar:%{_javadir}/entagged-audioformats.jar:%{_javadir}/log4j.jar:%{_javadir}/commons-logging.jar:%{_javadir}/%{name}-antBuildNumber.jar:%{_javadir}/substance.jar:%{_javadir}/oro.jar:%{_javadir}/swingx.jar:%{_javadir}/Filters.jar:%{_javadir}/htmlparser.jar:%{_javadir}/substance-swing.jar:%{_javadir}/commons-codec.jar:%{_javadir}/xpp3.jar:%{_javadir}/xstream.jar:%{_javadir}/jna.jar:%{_javadir}/jna-examples.jar net.sourceforge.atunes.Main "\$1"
 EOF
 
 %{__mkdir_p} %{buildroot}%{_iconsdir}/mini %{buildroot}%{_iconsdir}/large
@@ -114,6 +116,7 @@ EOF
 %attr(0755,root,root) %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_javadir}/aTunes.jar
+%{_javadir}/%{name}-*.jar
 %{_miconsdir}/%{name}.png
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
