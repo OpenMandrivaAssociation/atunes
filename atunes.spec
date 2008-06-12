@@ -147,11 +147,15 @@ MimeType=audio/x-mp3;audio/x-ogg;application/x-ogg;audio/x-mpegurl;audio/x-wav;a
 Categories=Audio;Player;X-MandrivaLinux-Multimedia-Sound;AudioVideo;Java;X-MandrivaLinux-CrossDesktop;
 EOF
 
+%if %mdkversion < 200900
 %post
 %{update_menus}
+%endif
 
+%if %mdkversion < 200900
 %postun
 %{clean_menus}
+%endif
 
 %files
 %doc license.txt
