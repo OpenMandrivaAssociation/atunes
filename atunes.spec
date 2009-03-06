@@ -1,7 +1,7 @@
 Name:		atunes
 Summary:	Audio player and manager
 Version:	1.8.2
-Release:	%mkrel 2
+Release:	%mkrel 3
 URL:		http://www.atunes.org/
 License:	GPLv2+
 Group:		Sound
