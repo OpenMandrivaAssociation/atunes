@@ -1,7 +1,7 @@
 Name:		atunes
 Summary:	Audio player and manager
-Version:	1.8.2
-Release:	%mkrel 5
+Version:	1.13.4
+Release:	%mkrel 1
 URL:		http://www.atunes.org/
 License:	GPLv2+
 Group:		Sound
@@ -13,19 +13,22 @@ Source3:	atunes-large.png
 Source4:	antBuildNumber.jar
 Source5:	antCommenter.jar
 Patch0:		atunes-default_theme.patch
-Patch1:		atunes-disable_jintellitype.patch
+#Patch1:		atunes-disable_jintellitype.patch
+Patch1:		atunes-disable_jintellitype_Win32Hotkeys.patch
 Requires:	java >= 1.6.0
 Requires:	mplayer vorbis-tools
 Requires:	jakarta-commons-io jakarta-commons-logging
 Requires:	jcommon jfreechart jhlabs-filters log4j jakarta-oro
-Requires:	jna jna-examples substance swingx htmlparser xmlpull-api xstream
+#Requires:	jna jna-examples substance swingx htmlparser xmlpull-api xstream
+Requires:	jna substance swingx htmlparser xmlpull-api xstream
 Suggests:	vorbis-tools flac cdrkit-icedax
 BuildArch:	noarch
 BuildRequires:	java-devel java-rpmbuild jpackage-utils ant
 BuildRequires:	unzip
 BuildRequires:	jakarta-commons-io jakarta-commons-logging
 BuildRequires:	jcommon jfreechart jhlabs-filters log4j jakarta-oro jaudiotagger
-BuildRequires:	jna jna-examples substance swingx htmlparser xmlpull-api xstream
+#BuildRequires:	jna jna-examples substance swingx htmlparser xmlpull-api xstream
+BuildRequires:	jna substance swingx htmlparser xmlpull-api xstream
 %description
 aTunes is a full-featured audio player and manager, developed in Java
 programming language.
@@ -35,8 +38,16 @@ easily edit tags, organize music and rip Audio CDs.
 
 %prep
 %setup -q -n aTunes
-%patch1 -p1
-#%patch0 -p1
+#%patch1 -p1
+%patch1 -p0
+
+# Clean unuseful files
+%{__rm} -rf aTunes.exe
+%{__rm} -rf mac_tools
+%{__rm} -rf win_tools
+%{__rm} -rf javadoc
+
+
 find . -name '*.jar' -exec %{__rm} -f {} \;
 find . -name '*.class' -exec %{__rm} -f {} \;
 
