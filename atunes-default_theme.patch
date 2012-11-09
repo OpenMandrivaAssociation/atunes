@@ -1,0 +1,11 @@
+--- aTunes/src/net/sourceforge/atunes/gui/LookAndFeelSelector.java	2007-08-31 17:44:24.000000000 +0200
++++ aTunes.n/src/net/sourceforge/atunes/gui/LookAndFeelSelector.java	2007-09-20 11:25:13.000000000 +0200
+@@ -40,7 +40,7 @@
+ 
+ 	public static Logger logger = new Logger();
+ 	
+-	public static final String DEFAULT_THEME = "Ebony";
++	public static final String DEFAULT_THEME = "Aqua";
+ 	
+ 	private static HashMap<String, String> themes = setListOfThemes();
+ 	

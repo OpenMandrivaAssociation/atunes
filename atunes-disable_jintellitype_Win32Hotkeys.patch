@@ -1,0 +1,90 @@
+diff -p -up src/net/sourceforge/atunes/kernel/modules/hotkeys/Win32Hotkeys.java_orig ./aTunes/src/net/sourceforge/atunes/kernel/modules/hotkeys/Win32Hotkeys.java
+--- src/net/sourceforge/atunes/kernel/modules/hotkeys/Win32Hotkeys.java_orig	2009-10-01 14:19:03.000000000 +0200
++++ src/net/sourceforge/atunes/kernel/modules/hotkeys/Win32Hotkeys.java	2009-10-01 14:23:09.000000000 +0200
+@@ -20,85 +20,15 @@
+ 
+ package net.sourceforge.atunes.kernel.modules.hotkeys;
+ 
+-
+-import com.melloware.jintellitype.IntellitypeListener;
+-import com.melloware.jintellitype.JIntellitype;
+-import com.melloware.jintellitype.JIntellitypeConstants;
+-
+-class Win32Hotkeys extends Hotkeys implements com.melloware.jintellitype.HotkeyListener, IntellitypeListener {
++class Win32Hotkeys extends Hotkeys {
+ 
+     public Win32Hotkeys(HotkeyListener hotkeyListener) {
+         super(hotkeyListener);
+     }
+ 
+     @Override
+-    public boolean registerHotkey(Hotkey hotkey) {
+-        JIntellitype.getInstance().registerSwingHotKey(hotkey.getId(), hotkey.getMod(), hotkey.getKey());
+-        return true;
+-    }
+-
+-    @Override
+-    public void unregisterHotkey(Hotkey hotkey) {
+-        JIntellitype.getInstance().unregisterHotKey(hotkey.getId());
+-    }
+-
+-    @Override
+-    public void cleanUp() {
+-        JIntellitype.getInstance().cleanUp();
+-    }
+-
+-    @Override
+-    public void activate() {
+-        JIntellitype.getInstance().addHotKeyListener(this);
+-        JIntellitype.getInstance().addIntellitypeListener(this);
+-    }
+-
+-    @Override
+-    public void deactivate() {
+-        JIntellitype.getInstance().removeHotKeyListener(this);
+-        JIntellitype.getInstance().removeIntellitypeListener(this);
+-    }
+-
+-    @Override
+     public void onHotKey(int arg0) {
+         getHotkeyListener().onHotKey(arg0);
+     }
+ 
+-    @Override
+-    public void onIntellitype(int command) {
+-        switch (command) {
+-        case JIntellitypeConstants.APPCOMMAND_MEDIA_NEXTTRACK: {
+-            getHotkeyListener().onHotKey(HotkeyHandler.HOTKEY_NEXT);
+-            break;
+-        }
+-        case JIntellitypeConstants.APPCOMMAND_MEDIA_PREVIOUSTRACK: {
+-            getHotkeyListener().onHotKey(HotkeyHandler.HOTKEY_PREVIOUS);
+-            break;
+-        }
+-        case JIntellitypeConstants.APPCOMMAND_MEDIA_PLAY_PAUSE: {
+-            getHotkeyListener().onHotKey(HotkeyHandler.HOTKEY_PAUSE);
+-            break;
+-        }
+-        case JIntellitypeConstants.APPCOMMAND_MEDIA_STOP: {
+-            getHotkeyListener().onHotKey(HotkeyHandler.HOTKEY_STOP);
+-            break;
+-        }
+-        case JIntellitypeConstants.APPCOMMAND_VOLUME_UP: {
+-            getHotkeyListener().onHotKey(HotkeyHandler.HOTKEY_VOLUME_UP);
+-            break;
+-        }
+-        case JIntellitypeConstants.APPCOMMAND_VOLUME_DOWN: {
+-            getHotkeyListener().onHotKey(HotkeyHandler.HOTKEY_VOLUME_DOWN);
+-            break;
+-        }
+-        case JIntellitypeConstants.APPCOMMAND_VOLUME_MUTE: {
+-            getHotkeyListener().onHotKey(HotkeyHandler.HOTKEY_MUTE);
+-            break;
+-        }
+-        }
+-    }
+-
+-    public static boolean isSupported() {
+-        return JIntellitype.isJIntellitypeSupported();
+-    }
+ }
