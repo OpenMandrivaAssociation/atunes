@@ -2,7 +2,7 @@ Name:		atunes
 Summary:	Audio player and manager
 Version:	1.13.4
 Release:	%mkrel 2
-URL:		http://www.atunes.org/
+URL:		https://www.atunes.org/
 License:	GPLv2+
 Group:		Sound
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
